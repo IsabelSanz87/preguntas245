@@ -1,0 +1,1960 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protección radiológica · Test</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#202d2d;background:#f5f7f5;font-synthesis:none;line-height:1.55;--green:#176451;--line:#dce3df;--muted:#5e6b66}
+*{box-sizing:border-box}body{margin:0}button,select{font:inherit}button{cursor:pointer}button:disabled{cursor:default}main{max-width:800px;margin:0 auto;padding:42px 24px 70px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:14px}h1{font-size:18px;font-weight:650;margin:0;letter-spacing:-.4px}.mark{width:10px;height:10px;display:inline-block;background:var(--green);border-radius:50%;margin-right:10px}select{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 34px 10px 12px;color:#202d2d;max-width:100%}.topics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}.topic{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;line-height:1.4}.topic strong{display:block;font-size:14px;margin-bottom:5px}.topic span{font-size:13px}.topic[aria-pressed=true]{background:#e8f0eb;border-color:var(--green);color:#144f41}.meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;margin-bottom:10px}progress{display:block;width:100%;height:5px;border:0;appearance:none;background:#e0e7e2;border-radius:8px;margin-bottom:25px;overflow:hidden}progress::-webkit-progress-bar{background:#e0e7e2}progress::-webkit-progress-value{background:var(--green)}progress::-moz-progress-bar{background:var(--green)}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px}h2{font-size:23px;font-weight:600;line-height:1.4;letter-spacing:-.45px;margin:0 0 26px;outline:none}.options{display:grid;gap:10px}.option{width:100%;background:#fff;border:1px solid #d3dcd6;border-radius:11px;padding:15px 16px;text-align:left;display:flex;gap:13px;align-items:flex-start;color:#26332d;line-height:1.5}.letter{font-size:12px;border:1px solid #cfd9d2;min-width:26px;height:26px;display:grid;place-items:center;border-radius:7px;color:#5e6b66;flex-shrink:0}.option:hover:not(:disabled){border-color:var(--green);background:#f5f9f6}.option:disabled{opacity:1}.option.correct{background:#edf6ef;border-color:#39734b}.option.wrong{background:#fcf0ed;border-color:#b55c49}.option.correct .letter{color:#205632;border-color:#8bb397}.option.wrong .letter{color:#8e3e2e;border-color:#d6a095}.status{display:block;font-size:12px;font-weight:650;margin-bottom:4px}.correct .status{color:#236139}.wrong .status{color:#963d2a}.explain{margin:9px 0 0;color:#53645a;font-size:14px;display:block}.feedback{font-size:14px;font-weight:600;margin:20px 0 0;min-height:0}.feedback:empty{display:none}.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px}.primary,.secondary{border-radius:10px;padding:11px 20px;border:1px solid var(--line);font-weight:550;font-size:14px}.primary{color:#fff;background:var(--green);border-color:var(--green)}.secondary{color:#41534a;background:transparent}.primary:disabled,.secondary:disabled{opacity:.42}.actions{display:flex;gap:10px;flex-wrap:wrap}.finish{text-align:center;padding:30px 0}.finish h2{margin-bottom:12px}.score{font-size:54px;color:var(--green);letter-spacing:-2px;margin:15px 0 0}.finish p{color:var(--muted);margin:4px 0 24px}.finish .actions{justify-content:center}.finish .secondary{background:white}.hidden{display:none!important}button:focus-visible,select:focus-visible{outline:3px solid #81b7a7;outline-offset:4px}noscript{display:block;margin:24px;color:#903c2a}
+@media(max-width:560px){main{padding:22px 16px 45px}header{align-items:flex-start;flex-direction:column;margin-bottom:22px}h1{font-size:17px}.topics{gap:6px;margin-bottom:24px}.topic{padding:11px 9px}.topic strong{font-size:13px}.topic span{font-size:11px}.card{padding:22px 16px;border-radius:14px}h2{font-size:20px}.option{padding:13px 11px;font-size:15px}.meta{font-size:12px}.controls{flex-wrap:wrap}.primary,.secondary{padding:10px 14px}.explain{font-size:13px}}
+@media(prefers-reduced-motion:no-preference){.option{transition:border-color .15s,background .15s}}
+</style>
+</head>
+<body>
+<main>
+<header><h1><span class="mark" aria-hidden="true"></span>Protección radiológica</h1><select id="mode" aria-label="Seleccionar preguntas"><option value="topic">Por temas</option><option value="all">Mezclar los tres temas</option></select></header>
+<nav class="topics" aria-label="Temas">
+<button class="topic" data-topic="2" aria-pressed="true"><strong>Tema 2</strong><span>Magnitudes y unidades</span></button>
+<button class="topic" data-topic="3" aria-pressed="false"><strong>Tema 3</strong><span>Detección y medida</span></button>
+<button class="topic" data-topic="4" aria-pressed="false"><strong>Tema 4</strong><span>Dosimetría</span></button>
+</nav>
+<section id="quiz" aria-label="Test">
+<div class="meta"><span id="position"></span><span id="tally"></span></div>
+<progress id="progress" value="0" max="25" aria-label="Preguntas respondidas"></progress>
+<div class="card"><h2 id="question" tabindex="-1"></h2><div id="options" class="options" role="group" aria-labelledby="question"></div><p id="feedback" class="feedback" role="status" aria-live="polite"></p></div>
+<div class="controls"><button id="prev" class="secondary">Anterior</button><button id="restart" class="secondary">Reiniciar</button><button id="next" class="primary" disabled>Siguiente</button></div>
+</section>
+<section id="finish" class="finish hidden" aria-label="Resultado"><h2 tabindex="-1" id="finishTitle">Test completado</h2><div class="score" id="score"></div><p id="summary"></p><div class="actions"><button class="primary" id="again">Repetir test</button><button class="secondary" id="errors">Repetir falladas</button><button class="secondary" id="review">Revisar respuestas</button></div></section>
+<noscript>Activa JavaScript para responder las preguntas.</noscript>
+</main>
+<script>
+const BANK = {
+  "2": [
+    {
+      "q": "¿Qué magnitud representa la ionización del aire producida por fotones X o gamma?",
+      "options": [
+        {
+          "text": "Exposición",
+          "why": "La exposición relaciona la carga de iones de un signo con la masa de aire.",
+          "correct": true
+        },
+        {
+          "text": "Dosis absorbida",
+          "why": "Relaciona la energía impartida con la masa del material.",
+          "correct": false
+        },
+        {
+          "text": "Actividad",
+          "why": "Cuenta las desintegraciones por segundo de una muestra.",
+          "correct": false
+        },
+        {
+          "text": "Transferencia lineal de energía",
+          "why": "Relaciona energía disipada y longitud recorrida.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿En qué unidad del SI se expresa la exposición?",
+      "options": [
+        {
+          "text": "C/kg",
+          "why": "Es carga eléctrica por unidad de masa de aire.",
+          "correct": true
+        },
+        {
+          "text": "Gy",
+          "why": "El gray se emplea para dosis absorbida y kerma.",
+          "correct": false
+        },
+        {
+          "text": "Bq",
+          "why": "El bequerelio es la unidad de actividad.",
+          "correct": false
+        },
+        {
+          "text": "Sv",
+          "why": "El sievert se emplea para dosis equivalente y efectiva.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cuál es la conversión correcta del roentgen?",
+      "options": [
+        {
+          "text": "1 R = 2,58 × 10⁻⁴ C/kg",
+          "why": "Es la equivalencia entre la unidad antigua y la del SI.",
+          "correct": true
+        },
+        {
+          "text": "1 R = 100 C/kg",
+          "why": "El factor 100 corresponde a Gy y rad, no a esta conversión.",
+          "correct": false
+        },
+        {
+          "text": "1 R = 3876 C/kg",
+          "why": "La relación aproximada es 1 C/kg = 3876 R, en el sentido contrario.",
+          "correct": false
+        },
+        {
+          "text": "1 R = 0,01 Gy en cualquier material",
+          "why": "R y Gy miden magnitudes diferentes; la relación con la dosis depende del material.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Una dosis absorbida de 1 mGy equivale a…",
+      "options": [
+        {
+          "text": "0,1 rad",
+          "why": "1 mGy = 0,001 Gy y cada Gy equivale a 100 rad.",
+          "correct": true
+        },
+        {
+          "text": "100 rad",
+          "why": "100 rad equivalen a 1 Gy.",
+          "correct": false
+        },
+        {
+          "text": "0,001 rad",
+          "why": "Falta multiplicar 0,001 Gy por 100 rad/Gy.",
+          "correct": false
+        },
+        {
+          "text": "1 rem",
+          "why": "El rem expresa dosis equivalente, no dosis absorbida.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué describe el kerma?",
+      "options": [
+        {
+          "text": "Energía cinética transferida por unidad de masa",
+          "why": "K = dEtr/dm para campos de partículas no cargadas.",
+          "correct": true
+        },
+        {
+          "text": "Carga de iones por unidad de masa de aire",
+          "why": "Es la definición de exposición.",
+          "correct": false
+        },
+        {
+          "text": "Desintegraciones por segundo",
+          "why": "Es la actividad de la muestra.",
+          "correct": false
+        },
+        {
+          "text": "Energía disipada por unidad de longitud",
+          "why": "Es la transferencia lineal de energía.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿A qué campos de radiación se refiere el kerma?",
+      "options": [
+        {
+          "text": "Fotones y neutrones",
+          "why": "Son partículas no cargadas que transfieren energía a partículas cargadas.",
+          "correct": true
+        },
+        {
+          "text": "Solo partículas alfa",
+          "why": "Las alfa son partículas cargadas.",
+          "correct": false
+        },
+        {
+          "text": "Solo electrones",
+          "why": "Los electrones tienen carga; no son el campo no cargado que define el kerma.",
+          "correct": false
+        },
+        {
+          "text": "Exclusivamente rayos X en aire",
+          "why": "Esa restricción corresponde a la exposición, que también incluye gamma.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué unidad comparten el kerma y la dosis absorbida?",
+      "options": [
+        {
+          "text": "Gray, equivalente a J/kg",
+          "why": "Ambos relacionan una energía con una masa.",
+          "correct": true
+        },
+        {
+          "text": "Sievert, equivalente a C/kg",
+          "why": "El sievert no equivale a C/kg y se usa para otras magnitudes.",
+          "correct": false
+        },
+        {
+          "text": "Bequerelio, equivalente a J",
+          "why": "El Bq representa una desintegración por segundo.",
+          "correct": false
+        },
+        {
+          "text": "Roentgen, equivalente a J/m",
+          "why": "El roentgen es una unidad de exposición.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Se imparten 0,02 J a una masa de 0,5 kg. ¿Cuál es la dosis absorbida?",
+      "options": [
+        {
+          "text": "0,04 Gy",
+          "why": "D = 0,02/0,5 = 0,04 J/kg.",
+          "correct": true
+        },
+        {
+          "text": "0,01 Gy",
+          "why": "Ese resultado procede de multiplicar por la masa; hay que dividir.",
+          "correct": false
+        },
+        {
+          "text": "25 Gy",
+          "why": "Se ha invertido el cociente energía/masa.",
+          "correct": false
+        },
+        {
+          "text": "0,04 Bq",
+          "why": "El valor numérico del cociente es correcto, pero la unidad es Gy.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué representa la dosis absorbida?",
+      "options": [
+        {
+          "text": "Energía media impartida por unidad de masa",
+          "why": "Es la energía neta que queda en la materia considerada, dividida por su masa.",
+          "correct": true
+        },
+        {
+          "text": "Toda la energía emitida por la fuente",
+          "why": "Parte de la energía emitida puede no alcanzar el material.",
+          "correct": false
+        },
+        {
+          "text": "La carga recogida en aire",
+          "why": "Esa carga por masa de aire permite definir la exposición.",
+          "correct": false
+        },
+        {
+          "text": "El número de órganos irradiados",
+          "why": "La dosis absorbida mide energía por masa.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué debe especificarse al dar una dosis absorbida?",
+      "options": [
+        {
+          "text": "El material en el que se imparte la energía",
+          "why": "La dosis absorbida se refiere a un material determinado.",
+          "correct": true
+        },
+        {
+          "text": "Que la radiación sea siempre gamma",
+          "why": "La dosis absorbida es válida para cualquier tipo de radiación.",
+          "correct": false
+        },
+        {
+          "text": "Que el medio sea siempre aire",
+          "why": "Puede definirse en cualquier material.",
+          "correct": false
+        },
+        {
+          "text": "Que la unidad sea siempre roentgen",
+          "why": "Su unidad del SI es el gray.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Con equilibrio electrónico y pérdidas por radiación de frenado despreciables, ¿cómo se relacionan K y D?",
+      "options": [
+        {
+          "text": "K = D",
+          "why": "La energía que sale se compensa con la que entra y se desprecia la pérdida radiativa.",
+          "correct": true
+        },
+        {
+          "text": "K = 100 D",
+          "why": "El factor 100 convierte Gy en rad, no kerma en dosis.",
+          "correct": false
+        },
+        {
+          "text": "K es siempre cero",
+          "why": "El equilibrio no implica ausencia de transferencia de energía.",
+          "correct": false
+        },
+        {
+          "text": "D es siempre el doble de K",
+          "why": "No existe ese factor fijo; en las condiciones indicadas son iguales.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Si la tasa de dosis constante es 2 mGy/h durante 30 minutos, ¿qué dosis se acumula?",
+      "options": [
+        {
+          "text": "1 mGy",
+          "why": "30 minutos son 0,5 h; 2 × 0,5 = 1 mGy.",
+          "correct": true
+        },
+        {
+          "text": "60 mGy",
+          "why": "Se han tratado 30 minutos como si fueran 30 horas.",
+          "correct": false
+        },
+        {
+          "text": "4 mGy",
+          "why": "Hay que multiplicar la tasa por el tiempo, no dividirla entre 0,5.",
+          "correct": false
+        },
+        {
+          "text": "2 mGy/h",
+          "why": "Es la tasa dada, no la dosis acumulada.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué unidad puede expresar una tasa de dosis absorbida?",
+      "options": [
+        {
+          "text": "Gy/h",
+          "why": "Una tasa es una variación de dosis por unidad de tiempo.",
+          "correct": true
+        },
+        {
+          "text": "Gy",
+          "why": "Expresa dosis absorbida sin dividir por tiempo.",
+          "correct": false
+        },
+        {
+          "text": "Bq/cm²",
+          "why": "Expresa actividad por superficie.",
+          "correct": false
+        },
+        {
+          "text": "J/m",
+          "why": "Expresa energía por longitud.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Una muestra presenta 500 desintegraciones por segundo. ¿Cuál es su actividad?",
+      "options": [
+        {
+          "text": "500 Bq",
+          "why": "Un bequerelio equivale a una desintegración por segundo.",
+          "correct": true
+        },
+        {
+          "text": "500 Gy",
+          "why": "El gray mide energía impartida por masa.",
+          "correct": false
+        },
+        {
+          "text": "500 Sv",
+          "why": "El sievert es una unidad dosimétrica, no de actividad.",
+          "correct": false
+        },
+        {
+          "text": "500 C/kg",
+          "why": "C/kg corresponde a exposición.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿A cuántos bequerelios equivale 1 Ci?",
+      "options": [
+        {
+          "text": "3,7 × 10¹⁰ Bq",
+          "why": "Es la equivalencia del curio con el bequerelio.",
+          "correct": true
+        },
+        {
+          "text": "3,7 × 10⁻¹⁰ Bq",
+          "why": "Se ha cambiado el signo del exponente.",
+          "correct": false
+        },
+        {
+          "text": "100 Bq",
+          "why": "El factor 100 aparece en otras conversiones, no en Ci a Bq.",
+          "correct": false
+        },
+        {
+          "text": "3876 Bq",
+          "why": "3876 relaciona C/kg con R, no Ci con Bq.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Para una fuente puntual ideal, sin atenuación, se duplica la distancia. ¿Qué ocurre con la tasa de exposición?",
+      "options": [
+        {
+          "text": "Se reduce a la cuarta parte",
+          "why": "La tasa varía inversamente con el cuadrado de la distancia.",
+          "correct": true
+        },
+        {
+          "text": "Se reduce a la mitad",
+          "why": "Eso sería una dependencia inversa con la distancia sin elevarla al cuadrado.",
+          "correct": false
+        },
+        {
+          "text": "Se duplica",
+          "why": "Al alejarse de la fuente, la tasa disminuye en este modelo.",
+          "correct": false
+        },
+        {
+          "text": "Permanece igual",
+          "why": "La distancia sí interviene en la tasa.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué relaciona la transferencia lineal de energía?",
+      "options": [
+        {
+          "text": "Energía disipada y longitud recorrida",
+          "why": "Se refiere al paso de una partícula cargada por el material.",
+          "correct": true
+        },
+        {
+          "text": "Energía impartida y masa",
+          "why": "Es la relación de la dosis absorbida.",
+          "correct": false
+        },
+        {
+          "text": "Carga y masa de aire",
+          "why": "Es la relación de la exposición.",
+          "correct": false
+        },
+        {
+          "text": "Desintegraciones y tiempo",
+          "why": "Es la relación de la actividad.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cuál es una unidad de transferencia lineal de energía?",
+      "options": [
+        {
+          "text": "keV/µm",
+          "why": "Es energía por longitud, igual que J/m.",
+          "correct": true
+        },
+        {
+          "text": "keV/kg",
+          "why": "Es energía por masa, no por longitud.",
+          "correct": false
+        },
+        {
+          "text": "C/kg",
+          "why": "Es una unidad de exposición.",
+          "correct": false
+        },
+        {
+          "text": "Sv/h",
+          "why": "Es una unidad de tasa de dosis equivalente.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué expresión define la dosis equivalente en un punto?",
+      "options": [
+        {
+          "text": "H = Q · D",
+          "why": "Multiplica la dosis absorbida por el factor de calidad.",
+          "correct": true
+        },
+        {
+          "text": "H = D/Q",
+          "why": "El factor de calidad multiplica la dosis; no la divide.",
+          "correct": false
+        },
+        {
+          "text": "H = Q + D",
+          "why": "No se suman un factor adimensional y una dosis.",
+          "correct": false
+        },
+        {
+          "text": "H = D · m",
+          "why": "Ese producto representa energía impartida si la dosis es uniforme.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Si D = 2 mGy y Q = 1, ¿cuánto vale H = Q · D?",
+      "options": [
+        {
+          "text": "2 mSv",
+          "why": "2 × 1 = 2; la unidad especial para H es Sv.",
+          "correct": true
+        },
+        {
+          "text": "2 mGy",
+          "why": "El número es correcto, pero H se expresa con el nombre especial sievert.",
+          "correct": false
+        },
+        {
+          "text": "0,5 mSv",
+          "why": "La fórmula multiplica por Q; no invierte D.",
+          "correct": false
+        },
+        {
+          "text": "200 mSv",
+          "why": "No interviene un factor 100 al pasar de D a H con Q = 1.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué factor interviene al calcular la dosis equivalente media en un órgano para una radiación?",
+      "options": [
+        {
+          "text": "El factor de ponderación de la radiación, wR",
+          "why": "HT,R = wR · DT,R.",
+          "correct": true
+        },
+        {
+          "text": "Solo el factor de tejido, wT",
+          "why": "wT interviene al obtener la dosis efectiva a partir de dosis equivalentes.",
+          "correct": false
+        },
+        {
+          "text": "La masa total de la fuente",
+          "why": "No es el factor de ponderación que aparece en HT,R.",
+          "correct": false
+        },
+        {
+          "text": "El tiempo muerto del detector",
+          "why": "Es una característica de detección, no el factor de esta fórmula.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué expresión corresponde a la dosis efectiva?",
+      "options": [
+        {
+          "text": "E = Σ wT · HT",
+          "why": "Suma las dosis equivalentes de los tejidos ponderadas por sus factores wT.",
+          "correct": true
+        },
+        {
+          "text": "E = Σ HT sin ponderar",
+          "why": "Faltan los factores que tienen en cuenta los distintos tejidos.",
+          "correct": false
+        },
+        {
+          "text": "E = dQ/dm",
+          "why": "Es la expresión de la exposición.",
+          "correct": false
+        },
+        {
+          "text": "E = dN/dt",
+          "why": "Es la expresión de la actividad.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Por qué se utilizan magnitudes operacionales?",
+      "options": [
+        {
+          "text": "Permiten aproximar en la práctica las magnitudes limitadoras",
+          "why": "Las dosis limitadoras no se miden directamente en los órganos en la vigilancia habitual.",
+          "correct": true
+        },
+        {
+          "text": "Porque la dosis efectiva se lee directamente en cualquier detector",
+          "why": "El detector proporciona una magnitud de medida que permite estimarla.",
+          "correct": false
+        },
+        {
+          "text": "Porque sustituyen la actividad por la masa",
+          "why": "Su finalidad es estimar magnitudes de protección.",
+          "correct": false
+        },
+        {
+          "text": "Porque convierten todos los valores en roentgen",
+          "why": "No se definen como una conversión de unidades.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Una dosis equivalente de 0,02 Sv equivale a…",
+      "options": [
+        {
+          "text": "2 rem",
+          "why": "1 Sv = 100 rem; 0,02 × 100 = 2.",
+          "correct": true
+        },
+        {
+          "text": "0,0002 rem",
+          "why": "Se ha dividido entre 100 en vez de multiplicar.",
+          "correct": false
+        },
+        {
+          "text": "20 rem",
+          "why": "0,02 × 100 es 2, no 20.",
+          "correct": false
+        },
+        {
+          "text": "2 rad",
+          "why": "El rad es unidad de dosis absorbida, no de dosis equivalente.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Una masa de 3 kg recibe una dosis uniforme de 2 Gy. ¿Cuál es la energía total impartida?",
+      "options": [
+        {
+          "text": "6 J",
+          "why": "La dosis integral es D · m = 2 J/kg × 3 kg.",
+          "correct": true
+        },
+        {
+          "text": "6 Gy",
+          "why": "El producto por la masa da energía, expresada en julios.",
+          "correct": false
+        },
+        {
+          "text": "1,5 J",
+          "why": "Se ha dividido la masa por la dosis; hay que multiplicar.",
+          "correct": false
+        },
+        {
+          "text": "2 J",
+          "why": "Se ha omitido la masa de 3 kg.",
+          "correct": false
+        }
+      ]
+    }
+  ],
+  "3": [
+    {
+      "q": "¿Qué equipo permite medir la energía de la radiación incidente?",
+      "options": [
+        {
+          "text": "Espectrómetro",
+          "why": "Mide la energía además de detectar la radiación.",
+          "correct": true
+        },
+        {
+          "text": "Un mero contador de impulsos",
+          "why": "Cuenta sucesos, sin aportar necesariamente su energía.",
+          "correct": false
+        },
+        {
+          "text": "Densitómetro de película",
+          "why": "Mide el ennegrecimiento de una película revelada.",
+          "correct": false
+        },
+        {
+          "text": "Un contador Geiger por la amplitud de sus impulsos",
+          "why": "Sus impulsos tienen amplitudes iguales y no permiten ese análisis energético.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Al ionizarse un gas en un detector, ¿qué se produce?",
+      "options": [
+        {
+          "text": "Iones positivos y electrones",
+          "why": "Estas cargas permiten que el gas se comporte como parcialmente conductor.",
+          "correct": true
+        },
+        {
+          "text": "Solo átomos neutros",
+          "why": "La ionización genera cargas libres.",
+          "correct": false
+        },
+        {
+          "text": "Únicamente luz visible",
+          "why": "La señal característica de este proceso es la producción de cargas.",
+          "correct": false
+        },
+        {
+          "text": "Una película ennegrecida",
+          "why": "Ese efecto corresponde al sistema fotográfico.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Para qué sirve el campo eléctrico de un detector gaseoso?",
+      "options": [
+        {
+          "text": "Para desplazar las cargas hacia los electrodos",
+          "why": "La recogida de las cargas permite obtener la señal eléctrica.",
+          "correct": true
+        },
+        {
+          "text": "Para convertir todos los fotones en neutrones",
+          "why": "El campo no realiza esa transformación nuclear.",
+          "correct": false
+        },
+        {
+          "text": "Para impedir la circulación de cualquier carga",
+          "why": "Se utiliza para recoger cargas, no para inmovilizarlas.",
+          "correct": false
+        },
+        {
+          "text": "Para revelar una emulsión fotográfica",
+          "why": "El revelado corresponde a otro mecanismo de detección.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué es la disociación de la materia en este contexto?",
+      "options": [
+        {
+          "text": "Rotura de enlaces químicos",
+          "why": "Puede producir alteraciones como las que permiten el ennegrecimiento fotográfico.",
+          "correct": true
+        },
+        {
+          "text": "Multiplicación en dinodos",
+          "why": "Es el mecanismo de amplificación del fotomultiplicador.",
+          "correct": false
+        },
+        {
+          "text": "Movimiento de la sonda",
+          "why": "Es una acción de medida, no un efecto sobre la materia.",
+          "correct": false
+        },
+        {
+          "text": "Recuento de desintegraciones por segundo",
+          "why": "Eso describe la actividad.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿De qué depende el rendimiento absoluto de detección?",
+      "options": [
+        {
+          "text": "De las propiedades del detector y de la geometría",
+          "why": "La distancia entre fuente y detector influye en cuánta radiación lo alcanza.",
+          "correct": true
+        },
+        {
+          "text": "Solo de las propiedades internas del detector",
+          "why": "Faltan los factores geométricos.",
+          "correct": false
+        },
+        {
+          "text": "Solo del color de la carcasa",
+          "why": "El color de la carcasa no define el rendimiento absoluto.",
+          "correct": false
+        },
+        {
+          "text": "Únicamente de la unidad elegida",
+          "why": "Cambiar la unidad no cambia la fracción de eventos registrados.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué cociente corresponde al rendimiento intrínseco?",
+      "options": [
+        {
+          "text": "Impulsos registrados / partículas o fotones incidentes",
+          "why": "El denominador incluye los que llegan al detector.",
+          "correct": true
+        },
+        {
+          "text": "Impulsos registrados / partículas o fotones emitidos por la fuente",
+          "why": "Ese cociente es el rendimiento absoluto.",
+          "correct": false
+        },
+        {
+          "text": "Energía / masa",
+          "why": "Ese cociente corresponde a una magnitud dosimétrica.",
+          "correct": false
+        },
+        {
+          "text": "Tiempo / distancia",
+          "why": "No representa una fracción de eventos detectados.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Llegan 1000 fotones a un detector y registra 250 impulsos. ¿Cuál es su rendimiento intrínseco?",
+      "options": [
+        {
+          "text": "25 %",
+          "why": "250/1000 = 0,25, equivalente al 25 %.",
+          "correct": true
+        },
+        {
+          "text": "4 %",
+          "why": "Se ha invertido la relación; debe dividirse lo registrado por lo incidente.",
+          "correct": false
+        },
+        {
+          "text": "250 %",
+          "why": "250 impulsos no equivalen a 250 % de los 1000 incidentes.",
+          "correct": false
+        },
+        {
+          "text": "75 %",
+          "why": "Es la fracción no registrada, no la detectada.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "La fuente emite 2000 fotones y se registran 100 impulsos. ¿Cuál es el rendimiento absoluto?",
+      "options": [
+        {
+          "text": "5 %",
+          "why": "100/2000 = 0,05.",
+          "correct": true
+        },
+        {
+          "text": "20 %",
+          "why": "El cociente correcto es 100 dividido por 2000.",
+          "correct": false
+        },
+        {
+          "text": "50 %",
+          "why": "100 es la vigésima parte de 2000, no la mitad.",
+          "correct": false
+        },
+        {
+          "text": "100 %",
+          "why": "Solo se han registrado 100 de los 2000 emitidos.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué describe el tiempo muerto de un sistema de detección?",
+      "options": [
+        {
+          "text": "El intervalo tras un suceso en que no puede registrar un nuevo impulso",
+          "why": "Limita la separación temporal de los eventos registrados por separado.",
+          "correct": true
+        },
+        {
+          "text": "El tiempo máximo permitido entre dos medidas",
+          "why": "No es un plazo para efectuar mediciones.",
+          "correct": false
+        },
+        {
+          "text": "La duración total de una sesión de trabajo",
+          "why": "Es una característica de respuesta del sistema.",
+          "correct": false
+        },
+        {
+          "text": "El período de semidesintegración de la fuente",
+          "why": "Es una propiedad del radionucleido, no del detector.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Si aumenta la tasa de llegada de eventos, ¿qué ocurre con las pérdidas por tiempo muerto?",
+      "options": [
+        {
+          "text": "Aumenta la probabilidad de perder impulsos",
+          "why": "Es más probable que un nuevo evento llegue durante el intervalo de insensibilidad.",
+          "correct": true
+        },
+        {
+          "text": "Desaparecen automáticamente",
+          "why": "Una tasa alta no elimina el tiempo muerto.",
+          "correct": false
+        },
+        {
+          "text": "El rendimiento pasa siempre al 100 %",
+          "why": "La rapidez de respuesta sigue siendo limitada.",
+          "correct": false
+        },
+        {
+          "text": "Cada evento perdido se cuenta dos veces",
+          "why": "Los eventos perdidos no se registran como impulsos separados.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué caracteriza la zona de cámara de ionización?",
+      "options": [
+        {
+          "text": "Se recoge la carga generada sin multiplicación gaseosa",
+          "why": "El campo permite captar la carga primaria producida por la radiación.",
+          "correct": true
+        },
+        {
+          "text": "Todos los impulsos alcanzan una amplitud común por descarga Geiger",
+          "why": "Esa es la zona Geiger.",
+          "correct": false
+        },
+        {
+          "text": "Los fotones se transforman en luz en un cristal",
+          "why": "Es el fundamento del centelleo.",
+          "correct": false
+        },
+        {
+          "text": "Se mide el ennegrecimiento de una película",
+          "why": "Es el fundamento de un dosímetro fotográfico.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Por qué se amplifica la señal de una cámara de ionización?",
+      "options": [
+        {
+          "text": "Porque la corriente producida es muy pequeña",
+          "why": "La amplificación permite medir esa señal.",
+          "correct": true
+        },
+        {
+          "text": "Porque no se generan cargas",
+          "why": "Sí se producen cargas por ionización del gas.",
+          "correct": false
+        },
+        {
+          "text": "Porque funciona sin electrodos",
+          "why": "La cámara utiliza electrodos para recoger las cargas.",
+          "correct": false
+        },
+        {
+          "text": "Para eliminar el tiempo de desintegración de la fuente",
+          "why": "La amplificación no modifica la desintegración radiactiva.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué aparece al pasar a la zona proporcional?",
+      "options": [
+        {
+          "text": "Multiplicación gaseosa de la carga",
+          "why": "Los electrones acelerados producen ionización secundaria.",
+          "correct": true
+        },
+        {
+          "text": "Ausencia completa de ionización",
+          "why": "Sigue habiendo ionización primaria y se añade la secundaria.",
+          "correct": false
+        },
+        {
+          "text": "Impulsos siempre iguales, cualquiera que sea la energía depositada",
+          "why": "Eso caracteriza la zona Geiger.",
+          "correct": false
+        },
+        {
+          "text": "Revelado químico del gas",
+          "why": "El revelado es propio de la película fotográfica.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cuándo permite un contador proporcional estimar la energía de una partícula incidente?",
+      "options": [
+        {
+          "text": "Cuando deposita toda su energía en el volumen sensible",
+          "why": "En esas condiciones, la amplitud del impulso es proporcional a su energía.",
+          "correct": true
+        },
+        {
+          "text": "Cuando atraviesa el detector sin ceder energía",
+          "why": "Sin depósito de energía no se obtiene la señal necesaria.",
+          "correct": false
+        },
+        {
+          "text": "Cuando se trabaja en la zona Geiger",
+          "why": "En esa zona se pierde la proporcionalidad de la amplitud.",
+          "correct": false
+        },
+        {
+          "text": "Solo al apagar la tensión de polarización",
+          "why": "La tensión es necesaria para recoger y multiplicar las cargas.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué afirmación sobre el contador Geiger es correcta?",
+      "options": [
+        {
+          "text": "Sus impulsos tienen aproximadamente la misma amplitud",
+          "why": "La descarga hace que la amplitud no conserve la información de energía.",
+          "correct": true
+        },
+        {
+          "text": "Mide la energía a partir del tamaño de cada impulso",
+          "why": "Los impulsos iguales impiden usar su amplitud como medida de energía.",
+          "correct": false
+        },
+        {
+          "text": "Funciona en la zona proporcional",
+          "why": "Funciona por encima de ella, en la zona Geiger.",
+          "correct": false
+        },
+        {
+          "text": "Su principal ventaja es un tiempo muerto nulo",
+          "why": "Tiene un tiempo muerto que limita el recuento.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Por qué el contador Geiger no necesita amplificación previa de sus impulsos?",
+      "options": [
+        {
+          "text": "La avalancha produce impulsos suficientemente grandes",
+          "why": "Pueden activar directamente los sistemas electrónicos de registro.",
+          "correct": true
+        },
+        {
+          "text": "Porque no utiliza señal eléctrica",
+          "why": "Su salida sí es eléctrica.",
+          "correct": false
+        },
+        {
+          "text": "Porque registra la luz sin convertirla",
+          "why": "Eso no describe un tubo Geiger.",
+          "correct": false
+        },
+        {
+          "text": "Porque no hay multiplicación de carga",
+          "why": "La gran multiplicación de carga es precisamente la causa.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué intervalo de tiempo muerto se indica para el Geiger?",
+      "options": [
+        {
+          "text": "50 a 300 µs",
+          "why": "Es el intervalo aproximado indicado para su recuperación.",
+          "correct": true
+        },
+        {
+          "text": "50 a 300 horas",
+          "why": "Se trata de microsegundos, no de horas.",
+          "correct": false
+        },
+        {
+          "text": "Siempre 0 s",
+          "why": "Su tiempo muerto es finito.",
+          "correct": false
+        },
+        {
+          "text": "12 a 15 minutos",
+          "why": "12 a 15 ml es un volumen de centelleo líquido, no un tiempo del Geiger.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Para radiación gamma, ¿qué eficiencia aproximada se indica para el Geiger?",
+      "options": [
+        {
+          "text": "Del orden del 1 al 2 %",
+          "why": "Puede detectar gamma, aunque con eficiencia reducida.",
+          "correct": true
+        },
+        {
+          "text": "Siempre el 100 %",
+          "why": "La eficiencia próxima al 100 % se refiere a partículas beta que alcanzan el volumen activo.",
+          "correct": false
+        },
+        {
+          "text": "Exactamente el 50 % en cualquier caso",
+          "why": "No es el valor aproximado señalado ni una constante universal.",
+          "correct": false
+        },
+        {
+          "text": "0 % porque nunca detecta gamma",
+          "why": "Sí puede detectar gamma.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cuál es la secuencia de señal en un detector de centelleo?",
+      "options": [
+        {
+          "text": "Radiación → luz → impulso eléctrico",
+          "why": "El centelleador emite luz y el fotomultiplicador la convierte en señal eléctrica.",
+          "correct": true
+        },
+        {
+          "text": "Radiación → película → revelado",
+          "why": "Es la secuencia de la detección fotográfica.",
+          "correct": false
+        },
+        {
+          "text": "Luz → neutrones → carga",
+          "why": "El centelleo no convierte la luz en neutrones.",
+          "correct": false
+        },
+        {
+          "text": "Radiación → masa → actividad",
+          "why": "No describe la cadena de detección del centelleo.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿A qué debe ser transparente un cristal de centelleo?",
+      "options": [
+        {
+          "text": "A la luz que él mismo emite",
+          "why": "Así la luz puede alcanzar el fotomultiplicador.",
+          "correct": true
+        },
+        {
+          "text": "A toda la radiación incidente, sin absorberla",
+          "why": "Debe absorber energía de la radiación para producir luz.",
+          "correct": false
+        },
+        {
+          "text": "Únicamente al sonido",
+          "why": "La señal del cristal es luminosa.",
+          "correct": false
+        },
+        {
+          "text": "A los iones positivos del gas",
+          "why": "El cristal no es el recinto gaseoso de un detector de ionización.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Para detectar gamma con un cristal, ¿qué características interesan?",
+      "options": [
+        {
+          "text": "Gran espesor y número atómico elevado",
+          "why": "Favorecen la absorción de la energía de los fotones.",
+          "correct": true
+        },
+        {
+          "text": "Espesor mínimo y baja conversión luminosa",
+          "why": "Reducen la absorción o la luz disponible.",
+          "correct": false
+        },
+        {
+          "text": "Que absorba su propia luz",
+          "why": "La autoabsorción dificulta que la luz llegue al fotomultiplicador.",
+          "correct": false
+        },
+        {
+          "text": "Que carezca de sustancia luminiscente",
+          "why": "La emisión luminosa es la base de este sistema.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué asociación de centelleador y radiación es correcta?",
+      "options": [
+        {
+          "text": "Sulfuro de cinc con plata para alfa; NaI(Tl) para gamma",
+          "why": "Son los ejemplos de aplicación de los dos cristales.",
+          "correct": true
+        },
+        {
+          "text": "NaI(Tl) solo para neutrones térmicos",
+          "why": "El ejemplo de NaI(Tl) corresponde a gamma.",
+          "correct": false
+        },
+        {
+          "text": "Sulfuro de cinc con plata exclusivamente para gamma",
+          "why": "Se destaca su uso para partículas pesadas cargadas, especialmente alfa.",
+          "correct": false
+        },
+        {
+          "text": "Ambos son gases de un contador proporcional",
+          "why": "Son materiales centelleadores sólidos.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Por qué se encapsula el NaI(Tl)?",
+      "options": [
+        {
+          "text": "Porque es higroscópico",
+          "why": "Absorbe humedad, que puede perjudicar sus propiedades ópticas.",
+          "correct": true
+        },
+        {
+          "text": "Porque no emite luz",
+          "why": "Sí emite luz y por eso se usa como centelleador.",
+          "correct": false
+        },
+        {
+          "text": "Para que la luz no alcance nunca el fotomultiplicador",
+          "why": "La luz debe salir hacia el fotomultiplicador.",
+          "correct": false
+        },
+        {
+          "text": "Para convertirlo en un gas",
+          "why": "El encapsulado protege el cristal, no lo transforma en gas.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué función tienen los dinodos del fotomultiplicador?",
+      "options": [
+        {
+          "text": "Multiplicar sucesivamente los electrones",
+          "why": "La sucesión de etapas genera una avalancha que amplifica la señal.",
+          "correct": true
+        },
+        {
+          "text": "Enfriar la muestra hasta que desaparezca la actividad",
+          "why": "No modifican la actividad de la muestra.",
+          "correct": false
+        },
+        {
+          "text": "Medir la masa del cristal",
+          "why": "No actúan como una balanza.",
+          "correct": false
+        },
+        {
+          "text": "Revelar la película fotográfica",
+          "why": "Los dinodos pertenecen al fotomultiplicador.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué ventaja tiene disolver la muestra en el centelleador líquido?",
+      "options": [
+        {
+          "text": "Evita problemas de autoabsorción en muestras alfa y beta",
+          "why": "La sustancia radiactiva queda distribuida en el propio medio centelleador.",
+          "correct": true
+        },
+        {
+          "text": "Impide que se produzca luz",
+          "why": "Los solutos transforman la energía de excitación en luz.",
+          "correct": false
+        },
+        {
+          "text": "Elimina la necesidad de detectar una señal",
+          "why": "Sigue siendo necesario medir la luz producida.",
+          "correct": false
+        },
+        {
+          "text": "Hace que solo puedan detectarse rayos gamma",
+          "why": "Su aplicación principal es detectar alfa y beta con alto rendimiento.",
+          "correct": false
+        }
+      ]
+    }
+  ],
+  "4": [
+    {
+      "q": "¿Qué estudia la dosimetría?",
+      "options": [
+        {
+          "text": "La medida de la dosis absorbida",
+          "why": "Por extensión, también se aplica a la determinación de otras magnitudes radiológicas.",
+          "correct": true
+        },
+        {
+          "text": "Solo el número de núcleos de una muestra",
+          "why": "Ese dato no define la dosimetría.",
+          "correct": false
+        },
+        {
+          "text": "Únicamente el color de una película",
+          "why": "El ennegrecimiento es un medio de medida, no el objeto general de la dosimetría.",
+          "correct": false
+        },
+        {
+          "text": "Solo la tensión de un detector",
+          "why": "La tensión es una condición de funcionamiento del equipo.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿En qué se divide la dosimetría personal?",
+      "options": [
+        {
+          "text": "Externa e interna",
+          "why": "Distingue irradiación externa y contaminación interna.",
+          "correct": true
+        },
+        {
+          "text": "Ambiental y superficial",
+          "why": "La ambiental estudia el entorno; superficial es una denominación de dosis.",
+          "correct": false
+        },
+        {
+          "text": "Geiger y centelleo",
+          "why": "Son tipos de detección, no las dos ramas de la dosimetría personal.",
+          "correct": false
+        },
+        {
+          "text": "Anual y luminiscente",
+          "why": "Mezcla una periodicidad con un mecanismo físico.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué corresponde a la vigilancia radiológica ambiental?",
+      "options": [
+        {
+          "text": "Medir tasas de dosis en áreas de trabajo",
+          "why": "También incluye actividad en aire y contaminación superficial.",
+          "correct": true
+        },
+        {
+          "text": "Medir exclusivamente la dosis acumulada por una persona",
+          "why": "Eso corresponde al control dosimétrico individual.",
+          "correct": false
+        },
+        {
+          "text": "Contar solo las excretas de cada trabajador",
+          "why": "El análisis de excretas es una vía de dosimetría interna.",
+          "correct": false
+        },
+        {
+          "text": "Revelar únicamente películas personales",
+          "why": "La vigilancia ambiental utiliza monitores del entorno.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿De qué dato parte la dosimetría interna?",
+      "options": [
+        {
+          "text": "De la actividad del radionucleido incorporado al organismo",
+          "why": "A partir de esa información se evalúa la dosis interna.",
+          "correct": true
+        },
+        {
+          "text": "Solo de la lectura de un dosímetro externo en la ropa",
+          "why": "Esa lectura corresponde a irradiación externa y no determina por sí sola la incorporación.",
+          "correct": false
+        },
+        {
+          "text": "Del color de la ropa",
+          "why": "No informa sobre la actividad incorporada.",
+          "correct": false
+        },
+        {
+          "text": "Solo de la tasa de dosis de una pared",
+          "why": "Una medida ambiental no equivale a medir la incorporación individual.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cuál es una medida directa para evaluar contaminación interna?",
+      "options": [
+        {
+          "text": "Contador de radiactividad corporal",
+          "why": "Mide radiación procedente de radionucleidos en el organismo.",
+          "correct": true
+        },
+        {
+          "text": "Análisis de excretas",
+          "why": "Es una medida indirecta.",
+          "correct": false
+        },
+        {
+          "text": "Dosímetro fotográfico de la bata",
+          "why": "Se utiliza para dosimetría personal externa.",
+          "correct": false
+        },
+        {
+          "text": "Monitor de contaminación de una mesa",
+          "why": "Evalúa una superficie, no directamente la actividad corporal.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué método es indirecto en dosimetría interna?",
+      "options": [
+        {
+          "text": "Análisis de excretas",
+          "why": "Permite obtener información sobre radionucleidos incorporados mediante su eliminación.",
+          "correct": true
+        },
+        {
+          "text": "Contador de radiactividad corporal",
+          "why": "Es la medida directa citada.",
+          "correct": false
+        },
+        {
+          "text": "Lectura de la tensión del Geiger",
+          "why": "No es un análisis de incorporación al organismo.",
+          "correct": false
+        },
+        {
+          "text": "Medición del fondo de una habitación",
+          "why": "Es una medida ambiental.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cómo se lee un dosímetro de termoluminiscencia?",
+      "options": [
+        {
+          "text": "Calentando el material irradiado y midiendo la luz emitida",
+          "why": "La emisión luminosa diferida permite evaluar la dosis.",
+          "correct": true
+        },
+        {
+          "text": "Revelando una emulsión con productos fotográficos",
+          "why": "Es el procedimiento del dosímetro de película.",
+          "correct": false
+        },
+        {
+          "text": "Midiendo solo el sonido que produce",
+          "why": "La señal de lectura del TLD es luminosa.",
+          "correct": false
+        },
+        {
+          "text": "Pesándolo antes y después",
+          "why": "La lectura no se basa en un cambio de masa.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "En el rango de medida calibrado de un TLD, ¿qué relación se utiliza?",
+      "options": [
+        {
+          "text": "La luz emitida es proporcional a la dosis recibida",
+          "why": "La calibración permite convertir la señal luminosa en una estimación de dosis.",
+          "correct": true
+        },
+        {
+          "text": "La luz no depende de la dosis",
+          "why": "La dependencia con la dosis es la base de la medida.",
+          "correct": false
+        },
+        {
+          "text": "La dosis es siempre igual a cero después de irradiar",
+          "why": "La irradiación deja una señal que se libera al calentar.",
+          "correct": false
+        },
+        {
+          "text": "Cada fotón luminoso equivale siempre a 1 Sv",
+          "why": "No existe esa equivalencia universal; se necesita calibración.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué ventaja de los TLD se destaca frente a los de película?",
+      "options": [
+        {
+          "text": "Pueden borrarse y reutilizarse",
+          "why": "El material puede prepararse para un nuevo período de medida.",
+          "correct": true
+        },
+        {
+          "text": "Conservan la película revelada como registro permanente",
+          "why": "Esa ventaja corresponde a la película fotográfica.",
+          "correct": false
+        },
+        {
+          "text": "Se leen sin aplicar calor",
+          "why": "El calentamiento es necesario para la lectura termoluminiscente.",
+          "correct": false
+        },
+        {
+          "text": "No necesitan calibración",
+          "why": "La relación entre luz y dosis debe calibrarse.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué material puede utilizarse en dosimetría termoluminiscente?",
+      "options": [
+        {
+          "text": "Fluoruro de litio, LiF",
+          "why": "Es uno de los materiales citados para TLD.",
+          "correct": true
+        },
+        {
+          "text": "Trifluoruro de boro gaseoso, BF₃",
+          "why": "Se utiliza en el ejemplo de detección de neutrones térmicos.",
+          "correct": false
+        },
+        {
+          "text": "Una emulsión fotográfica revelada",
+          "why": "Pertenece a la dosimetría fotográfica.",
+          "correct": false
+        },
+        {
+          "text": "Parafina como moderador",
+          "why": "Se utiliza para frenar neutrones rápidos en el sistema descrito.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué mide el densitómetro al leer un dosímetro fotográfico?",
+      "options": [
+        {
+          "text": "El grado de ennegrecimiento de la película revelada",
+          "why": "Ese dato se relaciona con la dosis mediante calibración.",
+          "correct": true
+        },
+        {
+          "text": "La luz emitida al calentar un TLD",
+          "why": "Esa es otra técnica de lectura.",
+          "correct": false
+        },
+        {
+          "text": "La actividad de las excretas",
+          "why": "No es la función del densitómetro de película.",
+          "correct": false
+        },
+        {
+          "text": "La energía de cada neutrón",
+          "why": "No realiza una medida espectrométrica de neutrones.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué ventaja ofrece el dosímetro fotográfico?",
+      "options": [
+        {
+          "text": "La película revelada puede archivarse como registro permanente",
+          "why": "Permite conservar el soporte de la información dosimétrica.",
+          "correct": true
+        },
+        {
+          "text": "Es completamente insensible a la luz",
+          "why": "La sensibilidad a la luz es una de sus desventajas.",
+          "correct": false
+        },
+        {
+          "text": "No depende del revelado",
+          "why": "El proceso de revelado influye en la medida.",
+          "correct": false
+        },
+        {
+          "text": "Nunca envejece durante el almacenamiento",
+          "why": "El envejecimiento puede alterar el ennegrecimiento.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué puede producir una temperatura elevada en un dosímetro de película?",
+      "options": [
+        {
+          "text": "Un ennegrecimiento espurio y una sobreestimación de dosis",
+          "why": "El calor puede sensibilizar la película y generar errores por exceso.",
+          "correct": true
+        },
+        {
+          "text": "Una lectura siempre exacta",
+          "why": "Es una condición que puede alterar la medida.",
+          "correct": false
+        },
+        {
+          "text": "Una reducción de la actividad de cualquier fuente",
+          "why": "No modifica de ese modo la actividad de la fuente.",
+          "correct": false
+        },
+        {
+          "text": "La conversión de la película en un Geiger",
+          "why": "Son dispositivos con principios físicos distintos.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "Se necesita conocer la dosis acumulada durante una tarea y recibir una alarma. ¿Qué dispositivo encaja?",
+      "options": [
+        {
+          "text": "Dosímetro operacional de lectura directa",
+          "why": "Ofrece lectura digital y señal acústica al alcanzar una dosis prefijada.",
+          "correct": true
+        },
+        {
+          "text": "Película pendiente de revelado",
+          "why": "No proporciona por sí sola una lectura digital instantánea con alarma.",
+          "correct": false
+        },
+        {
+          "text": "TLD pendiente de calentamiento",
+          "why": "Requiere una lectura posterior mediante calentamiento.",
+          "correct": false
+        },
+        {
+          "text": "Tabla de conversiones de unidades",
+          "why": "Permite convertir valores, pero no mide ni emite alarmas.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué detectores suelen emplear los dosímetros operacionales descritos?",
+      "options": [
+        {
+          "text": "Detectores de ionización o de silicio",
+          "why": "Son las dos tecnologías señaladas para estos equipos.",
+          "correct": true
+        },
+        {
+          "text": "Solo emulsiones fotográficas",
+          "why": "Las películas requieren revelado y no son la base de la lectura digital descrita.",
+          "correct": false
+        },
+        {
+          "text": "Solo cristales TLD sin lector",
+          "why": "Un TLD sin lectura no ofrece la indicación instantánea descrita.",
+          "correct": false
+        },
+        {
+          "text": "Únicamente grafito",
+          "why": "El grafito se cita como moderador de neutrones.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿En qué se basan habitualmente los monitores de tasa de exposición o dosis descritos?",
+      "options": [
+        {
+          "text": "Cámaras de ionización o contadores Geiger",
+          "why": "Son los detectores citados para vigilancia de áreas.",
+          "correct": true
+        },
+        {
+          "text": "Películas que se revelan cada segundo",
+          "why": "No es el sistema de monitorización descrito.",
+          "correct": false
+        },
+        {
+          "text": "Únicamente análisis de excretas",
+          "why": "Es una técnica de dosimetría interna.",
+          "correct": false
+        },
+        {
+          "text": "Un densitómetro sin detector de radiación",
+          "why": "El densitómetro mide el ennegrecimiento de una película.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "En el monitor beta-gamma con pantalla desplazable descrito, ¿qué permite la ventana abierta?",
+      "options": [
+        {
+          "text": "Medir el efecto conjunto de beta y gamma",
+          "why": "La ventana abierta permite la contribución beta además de la gamma.",
+          "correct": true
+        },
+        {
+          "text": "Medir exclusivamente gamma",
+          "why": "Ese es el uso descrito con la ventana cerrada.",
+          "correct": false
+        },
+        {
+          "text": "Eliminar toda la radiación incidente",
+          "why": "La ventana abierta no actúa como un blindaje total.",
+          "correct": false
+        },
+        {
+          "text": "Medir únicamente neutrones térmicos",
+          "why": "No es un detector de neutrones con BF₃.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Para qué sirve la fuente de verificación de un monitor?",
+      "options": [
+        {
+          "text": "Para comprobar su respuesta en una posición prevista",
+          "why": "Permite contrastar el funcionamiento del equipo con una irradiación determinada.",
+          "correct": true
+        },
+        {
+          "text": "Para cargar eléctricamente las baterías",
+          "why": "Las baterías tienen su propia comprobación de estado.",
+          "correct": false
+        },
+        {
+          "text": "Para sustituir cualquier calibración",
+          "why": "Una verificación de funcionamiento no equivale a toda la calibración del instrumento.",
+          "correct": false
+        },
+        {
+          "text": "Para contaminar la sonda antes de medir",
+          "why": "La contaminación de la sonda debe evitarse.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué se entiende por contaminación radiactiva?",
+      "options": [
+        {
+          "text": "Presencia indeseable de sustancias radiactivas",
+          "why": "Puede afectar a una superficie, un medio, una materia o una persona.",
+          "correct": true
+        },
+        {
+          "text": "Cualquier irradiación sin presencia de sustancias radiactivas",
+          "why": "La irradiación y la contaminación son conceptos distintos.",
+          "correct": false
+        },
+        {
+          "text": "La dosis efectiva expresada en Sv",
+          "why": "Es una magnitud dosimétrica, no la definición de contaminación.",
+          "correct": false
+        },
+        {
+          "text": "El tiempo muerto de un contador",
+          "why": "Es una característica de respuesta del detector.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cómo se aproxima la sonda a una superficie que se quiere comprobar?",
+      "options": [
+        {
+          "text": "Se acerca sin tocarla",
+          "why": "El contacto podría contaminar la propia sonda.",
+          "correct": true
+        },
+        {
+          "text": "Se frota siempre contra ella",
+          "why": "El contacto puede transferir contaminación a la sonda.",
+          "correct": false
+        },
+        {
+          "text": "Se mantiene necesariamente a varios metros",
+          "why": "La medida descrita requiere acercar la zona sensible.",
+          "correct": false
+        },
+        {
+          "text": "Se cubre siempre con un blindaje grueso",
+          "why": "Un blindaje puede impedir que la radiación llegue al detector.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué unidad puede emplearse para contaminación superficial?",
+      "options": [
+        {
+          "text": "Bq/cm²",
+          "why": "Expresa actividad por unidad de superficie.",
+          "correct": true
+        },
+        {
+          "text": "Gy/h",
+          "why": "Expresa una tasa de dosis absorbida.",
+          "correct": false
+        },
+        {
+          "text": "Sv",
+          "why": "Expresa dosis equivalente o efectiva.",
+          "correct": false
+        },
+        {
+          "text": "C/kg",
+          "why": "Expresa exposición.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué sonda se cita para contaminación por emisores alfa?",
+      "options": [
+        {
+          "text": "Contador proporcional con ventana muy delgada",
+          "why": "La ventana debe permitir la entrada de partículas de alcance muy corto.",
+          "correct": true
+        },
+        {
+          "text": "Una película detrás de una pared gruesa",
+          "why": "La pared impediría la llegada de las partículas alfa.",
+          "correct": false
+        },
+        {
+          "text": "Un Geiger usado para medir su energía",
+          "why": "El Geiger no determina la energía de las partículas por su amplitud.",
+          "correct": false
+        },
+        {
+          "text": "Un densitómetro sin película",
+          "why": "No es un monitor de contaminación alfa.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Cómo detecta neutrones térmicos el sistema con BF₃?",
+      "options": [
+        {
+          "text": "Una reacción con boro produce partículas cargadas que ionizan el gas",
+          "why": "La señal procede de los productos cargados de la reacción, incluidas partículas alfa.",
+          "correct": true
+        },
+        {
+          "text": "El neutrón ioniza directamente por su carga positiva",
+          "why": "El neutrón carece de carga eléctrica.",
+          "correct": false
+        },
+        {
+          "text": "El BF₃ revela una película fotográfica",
+          "why": "El sistema descrito es gaseoso y mide ionización.",
+          "correct": false
+        },
+        {
+          "text": "El boro impide cualquier interacción con el neutrón",
+          "why": "Se aprovecha precisamente su reacción con los neutrones.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué función tienen la parafina o el grafito alrededor de un detector de neutrones rápidos?",
+      "options": [
+        {
+          "text": "Frenarlos para que después los detecte el sistema con boro",
+          "why": "Actúan como moderadores antes de la detección de los neutrones lentos.",
+          "correct": true
+        },
+        {
+          "text": "Aumentar necesariamente su velocidad",
+          "why": "La función descrita es reducir su energía.",
+          "correct": false
+        },
+        {
+          "text": "Transformarlos todos en fotones visibles directamente",
+          "why": "El método utiliza moderación seguida de reacción en el detector.",
+          "correct": false
+        },
+        {
+          "text": "Revelar la película dosimétrica",
+          "why": "No forman parte del revelado fotográfico.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "q": "¿Qué asociación es correcta en las lecturas dosimétricas personales descritas?",
+      "options": [
+        {
+          "text": "Hp(10) profunda; Hp(0,07) superficial",
+          "why": "Las lecturas se evalúan con el dosímetro corporal; Hp(0,07) también se usa en el localizado.",
+          "correct": true
+        },
+        {
+          "text": "Hp(10) actividad; Hp(0,07) exposición",
+          "why": "Ambas son magnitudes dosimétricas personales, no actividad ni exposición.",
+          "correct": false
+        },
+        {
+          "text": "Hp(10) superficial; Hp(0,07) profunda",
+          "why": "Se han intercambiado sus denominaciones.",
+          "correct": false
+        },
+        {
+          "text": "Ambas se expresan en bequerelios",
+          "why": "Las lecturas dosimétricas descritas se expresan en mSv.",
+          "correct": false
+        }
+      ]
+    }
+  ]
+};
+const shuffle = list => { const a=[...list]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const $=id=>document.getElementById(id);
+let topic=2, mixed=false, questions=[], answers=[], at=0, seed=[];
+const all=()=>Object.entries(BANK).flatMap(([t,qs])=>qs.map((q,i)=>({...q,topic:Number(t),id:`${t}-${i}`})));
+const pool=()=>all().filter(q=>mixed||q.topic===topic);
+function start(items=pool()){
+ seed=items;questions=shuffle(items).map(q=>({...q,options:shuffle(q.options)}));answers=Array(questions.length).fill(null);at=0;
+ $('finish').classList.add('hidden');$('quiz').classList.remove('hidden');render();
+}
+function counts(){return {done:answers.filter(a=>a!==null).length,right:answers.filter((a,i)=>a!==null&&questions[i].options[a].correct).length};}
+function render(focus=false){
+ const q=questions[at],chosen=answers[at], answered=chosen!==null,c=counts();
+ $('position').textContent=`${mixed?'Tema '+q.topic+' · ':''}Pregunta ${at+1} de ${questions.length}`;
+ $('tally').textContent=`${c.right} aciertos · ${c.done} respondidas`;
+ $('progress').max=questions.length;$('progress').value=c.done;
+ $('question').textContent=q.q;$('options').replaceChildren();
+ q.options.forEach((o,i)=>{
+ const b=document.createElement('button');b.className='option';b.type='button';b.disabled=answered;
+ const letter=document.createElement('span');letter.className='letter';letter.textContent='ABCD'[i];letter.setAttribute('aria-hidden','true');b.append(letter);
+ const body=document.createElement('span');
+ if(answered){
+   if(o.correct)b.classList.add('correct');else if(i===chosen)b.classList.add('wrong');
+   const label=document.createElement('span');label.className='status';label.textContent=(o.correct?'Correcta':'Incorrecta')+(i===chosen?' · Tu respuesta':'');body.append(label);
+ }
+ const text=document.createElement('span');text.textContent=o.text;body.append(text);
+ if(answered){const why=document.createElement('span');why.className='explain';why.textContent=o.why;body.append(why);}
+ b.append(body);b.addEventListener('click',()=>{if(answers[at]!==null)return;answers[at]=i;render();});$('options').append(b);
+ });
+ $('feedback').textContent=answered?(q.options[chosen].correct?'Respuesta acertada.':'Respuesta incorrecta. La opción correcta aparece en verde.') : '';
+ $('prev').disabled=at===0;$('next').disabled=!answered;
+ $('next').textContent=at===questions.length-1?(c.done===questions.length?'Ver resultado':'Ir a la pendiente'):'Siguiente';
+ if(focus)$('question').focus();
+}
+function finish(){const c=counts();$('quiz').classList.add('hidden');$('finish').classList.remove('hidden');$('score').textContent=`${c.right} / ${questions.length}`;$('summary').textContent=`${Math.round(100*c.right/questions.length)} % de aciertos`;$('errors').hidden=c.right===questions.length;$('finishTitle').focus();}
+$('next').addEventListener('click',()=>{if(answers[at]===null)return;if(at<questions.length-1){at++;render(true);}else if(answers.includes(null)){at=answers.indexOf(null);render(true);}else finish();});
+$('prev').addEventListener('click',()=>{if(at>0){at--;render(true);}});
+$('restart').addEventListener('click',()=>start(seed));
+$('again').addEventListener('click',()=>start(seed));
+$('errors').addEventListener('click',()=>start(questions.filter((q,i)=>answers[i]!==null&&!q.options[answers[i]].correct)));
+$('review').addEventListener('click',()=>{$('finish').classList.add('hidden');$('quiz').classList.remove('hidden');at=0;render(true);});
+document.querySelectorAll('[data-topic]').forEach(b=>b.addEventListener('click',()=>{topic=Number(b.dataset.topic);mixed=false;$('mode').value='topic';document.querySelectorAll('[data-topic]').forEach(x=>x.setAttribute('aria-pressed',String(Number(x.dataset.topic)===topic)));start();}));
+$('mode').addEventListener('change',()=>{mixed=$('mode').value==='all';document.querySelectorAll('[data-topic]').forEach(x=>x.setAttribute('aria-pressed',String(!mixed&&Number(x.dataset.topic)===topic)));start();});
+start();
+</script>
+</body>
+</html>
